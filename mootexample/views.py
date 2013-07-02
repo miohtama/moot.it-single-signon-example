@@ -62,7 +62,7 @@ def create_moot_config(request):
     config = dict(id=user, displayname=displayname, avatar="http://foobar", is_admin=is_admin, email=email)
 
     message = base64.b64encode(json.dumps(config))
-    timestamp = str(math.floor(time.time()))
+    timestamp = str(int(math.floor(time.time())))
 
     print "User %s" % user
     print "Message %s" % message
