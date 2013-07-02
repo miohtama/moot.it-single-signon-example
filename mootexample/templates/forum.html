@@ -8,12 +8,15 @@
 </head>
 <body>
 
-    <h1>{% trans "LocalBitcoins.com forums" %}</h1>
+    <h1>Example forum integration</h1>
+
+    <p>Your are {{ request.user }}</p>
 
     <div id="my-moot"></div>
 
    <!-- Moot explicitly neeeds ajax.googleapis.com hosted jQuery due to CORS restrictions -->
 
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
    <script src="https://cdn.moot.it/1/moot.min.js"></script>
 
    <script>
@@ -21,18 +24,12 @@
         window.ssoConfig = {{ sso_config|safe }};
         var mootDebug = {};
 
-        // Expose server-side variables used in "message" for debugging
-        mootDebug.id = "{{ id }}";
-        mootDebug.displayname = "{{ displayname }}";
-        mootDebug.is_admin = {% if is_admin %}true{% else %}false{% endif %};
-        mootDebug.email = "{{ email }}";
-
         $(function() {
 
-            console.log(window.ssoConfig);
+            console.log("SSO config", window.ssoConfig);
 
             $("#my-moot").moot({
-               url: "https://moot.it/i/localbitcoins",
+               url: "{{ forum_url }}",
                title: "Example forums",
                sso: window.ssoConfig
             });

@@ -15,10 +15,16 @@ Example::
     pip install Django
     python manage.py syncdb   # Create admin user
 
-    # Start Django dev server
+    # Start Django dev server with Moot.it credentials given as OS environment variables
     API_KEY="your-moot-it-api-key" API_SECRET="your-moot-it-api-secret" manage.py runserver
 
-Then visit `http://localhost:8000 <http://localhost:8000>`_ and you should see the forums.
+Then visit `http://localhost:8000 <http://localhost:8000>`_ and you should see the forums anonymously.
+
+Go to `http://localhost:8000/admin/ <http://localhost:8000/admin/>` to login as admin user.
+
+Then visit `http://localhost:8000/ <http://localhost:8000/> again to see the logged in version.
+
+Various debug info is printed to *stdout* when you open the forum view.
 
 Author
 ------

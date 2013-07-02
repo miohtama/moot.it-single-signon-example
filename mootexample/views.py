@@ -28,14 +28,19 @@ import time
 import hashlib
 import math
 import os
+import sys
 
 from django.shortcuts import render_to_response
 
 from django.template import RequestContext
 
 # Moot.it credentials
-API_KEY = os.environ.get("MOOT_IP_API_KEY")
-API_SECRET = os.environ.get("MOOT_IP_API_SECRET")
+API_KEY = os.environ.get("MOOT_IT_API_KEY")
+API_SECRET = os.environ.get("MOOT_IT_API_SECRET")
+FORUM_URL = os.environ.get("MOOT_IT_FORUM_URL")
+
+if not API_KEY:
+    sys.exit("Please give API key on the command line")
 
 
 def create_moot_config(request):
@@ -59,25 +64,30 @@ def create_moot_config(request):
     message = base64.b64encode(json.dumps(config))
     timestamp = str(math.floor(time.time()))
 
+    print "User %s" % request.user.username
+    print "Message %s" % message
+    print "Timestamp %s" % timestamp
+
     signature = hashlib.sha1(API_SECRET + ' ' + message + ' ' + timestamp).hexdigest()
+    print "Signature %s" % signature
 
     # single sign on config
     sso_config = dict(key=API_KEY, timestamp=timestamp, message=message, signature=signature)
 
-    return json.dumps(sso_config), locals()
+    config = json.dumps(sso_config)
+    print "sso_config %s" % config
+
+    return config
 
 
 def forum(request):
     """ Render main page with forums JavaScript embed """
 
-    sso_config, used_params = create_moot_config(request)
+    sso_config = create_moot_config(request)
+
+    forum_url = FORUM_URL
 
     # Debugging data for Courtney
-    id = used_params["user"]
-    displayname = used_params["displayname"]
-    is_admin = used_params["is_admin"]
-    email = used_params["email"]
-
     resp = render_to_response("forum.html",
                               locals(),
                               context_instance=RequestContext(request))
