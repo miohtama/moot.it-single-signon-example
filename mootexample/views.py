@@ -59,12 +59,12 @@ def create_moot_config(request):
         email = "noreply@example.com"
 
     # user config
-    config = dict(id=user, displayname=displayname, avatar=None, is_admin=is_admin, email=email)
+    config = dict(id=user, displayname=displayname, avatar="http://foobar", is_admin=is_admin, email=email)
 
     message = base64.b64encode(json.dumps(config))
     timestamp = str(math.floor(time.time()))
 
-    print "User %s" % request.user.username
+    print "User %s" % user
     print "Message %s" % message
     print "Timestamp %s" % timestamp
 
