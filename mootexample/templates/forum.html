@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+    <title>Moot.it forum example</title>
+
+    <!-- 1. Moot style -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.moot.it/1/moot.css">
+</head>
+<body>
+
+    <h1>{% trans "LocalBitcoins.com forums" %}</h1>
+
+    <div id="my-moot"></div>
+
+   <!-- Moot explicitly neeeds ajax.googleapis.com hosted jQuery due to CORS restrictions -->
+
+   <script src="https://cdn.moot.it/1/moot.min.js"></script>
+
+   <script>
+
+        window.ssoConfig = {{ sso_config|safe }};
+        var mootDebug = {};
+
+        // Expose server-side variables used in "message" for debugging
+        mootDebug.id = "{{ id }}";
+        mootDebug.displayname = "{{ displayname }}";
+        mootDebug.is_admin = {% if is_admin %}true{% else %}false{% endif %};
+        mootDebug.email = "{{ email }}";
+
+        $(function() {
+
+            console.log(window.ssoConfig);
+
+            $("#my-moot").moot({
+               url: "https://moot.it/i/localbitcoins",
+               title: "Example forums",
+               sso: window.ssoConfig
+            });
+        });
+   </script>
+</body>
+</html>
