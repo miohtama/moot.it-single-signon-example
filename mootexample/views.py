@@ -59,7 +59,7 @@ def create_moot_config(request):
         email = "noreply@example.com"
 
     # user config
-    config = dict(id=user, displayname=displayname, avatar="http://foobar", is_admin=is_admin, email=email)
+    config = dict(user=dict(id=user, displayname=displayname, avatar="http://foobar", is_admin=is_admin, email=email))
     print "Config %s" % json.dumps(config)
 
     message = base64.b64encode(json.dumps(config))
