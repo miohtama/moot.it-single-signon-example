@@ -1,19 +1,21 @@
-<!doctype html>
-<html>
-<head>
-    <title>Moot.it forum example</title>
+{% extend "base.html" %}
 
-    <!-- 1. Moot style -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.moot.it/1/moot.css">
-</head>
-<body>
+{% block content %}
 
     <h1>Example forum integration</h1>
 
     <p>Your are {{ request.user }}</p>
 
+    <h3>Forum settings</h3>
+    <p>
+        <a href="{% url 'avatar_change' %}"><i class="icon-user icon-white"></i> Change avatar image</a>
+    </p>
+
     <div id="my-moot"></div>
 
+{% enblock %}
+
+{% block custom_script %}
    <!-- Moot explicitly neeeds ajax.googleapis.com hosted jQuery due to CORS restrictions -->
 
    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -35,5 +37,4 @@
             });
         });
    </script>
-</body>
-</html>
+{% endblock %}

@@ -1,5 +1,11 @@
 # Django settings for mootexample project.
 
+import os
+
+from registration_defaults.settings import *
+
+ROOT_PATH = os.path.dirname(__file__)
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -49,12 +55,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.abspath(os.path.join(ROOT_PATH, "user-uploads"))
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/user-uploads/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -119,9 +125,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mootexample',
-    # Uncomment the next line to enable the admin:
+    'registration_defaults',
     'django.contrib.admin',
+    'registration',
+    'avatar',
+    'mootexample',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -162,3 +170,27 @@ LOGGING = {
         },
     }
 }
+
+# django-avatar security safe settings settings
+# where the user can upload only one avatar image
+
+# Fold files in two hash folder nesting levels
+AVATAR_HASH_USERDIRNAMES = True
+
+AUTO_GENERATE_AVATAR_SIZES = (120,)
+
+AVATAR_GRAVATAR_BACKUP = False
+
+AVATAR_DEFAULT_URL = "img/default-avatar.png"
+
+AVATAR_ALLOWED_FILE_EXTS = (".png", ".jpg", ".gif", ".jpeg")
+
+AVATAR_ALLOWED_MIMETYPES = ("image/png", "image/gif", "image/jpeg")
+
+AVATAR_CLEANUP_DELETED = True
+
+AVATAR_MAX_AVATARS_PER_USER = 1
+
+# Cache causes issues when trying to change avatar image
+# -> instead rely front-end HTTP caching
+AVATAR_CACHE_TIMEOUT = -1
